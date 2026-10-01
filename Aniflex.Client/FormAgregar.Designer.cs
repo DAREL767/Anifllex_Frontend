@@ -39,6 +39,8 @@
             txtRecaudacion = new TextBox();
             chkEsSaga = new CheckBox();
             btnGuardar = new Button();
+            dtpFechaEstreno = new DateTimePicker();
+            label6 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -137,7 +139,7 @@
             // btnGuardar
             // 
             btnGuardar.Font = new Font("Sitka Banner", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnGuardar.Location = new Point(290, 401);
+            btnGuardar.Location = new Point(293, 500);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(168, 37);
             btnGuardar.TabIndex = 10;
@@ -145,11 +147,30 @@
             btnGuardar.UseVisualStyleBackColor = true;
             btnGuardar.Click += btnGuardar_Click;
             // 
+            // dtpFechaEstreno
+            // 
+            dtpFechaEstreno.Location = new Point(295, 401);
+            dtpFechaEstreno.Name = "dtpFechaEstreno";
+            dtpFechaEstreno.Size = new Size(244, 31);
+            dtpFechaEstreno.TabIndex = 11;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(75, 408);
+            label6.Name = "label6";
+            label6.Size = new Size(214, 24);
+            label6.TabIndex = 12;
+            label6.Text = "Fecha de Estreno:";
+            // 
             // FormAgregar
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 549);
+            Controls.Add(label6);
+            Controls.Add(dtpFechaEstreno);
             Controls.Add(btnGuardar);
             Controls.Add(chkEsSaga);
             Controls.Add(txtRecaudacion);
@@ -181,5 +202,7 @@
         private TextBox txtRecaudacion;
         private CheckBox chkEsSaga;
         private Button btnGuardar;
+        private DateTimePicker dtpFechaEstreno;
+        private Label label6;
     }
 }

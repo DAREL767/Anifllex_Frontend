@@ -40,6 +40,8 @@
             label1 = new Label();
             txtIdBuscar = new Label();
             btnActualizar = new Button();
+            label5 = new Label();
+            dtpFechaEstreno = new DateTimePicker();
             SuspendLayout();
             // 
             // txtRecaudacion
@@ -154,11 +156,30 @@
             btnActualizar.UseVisualStyleBackColor = true;
             btnActualizar.Click += btnActualizar_Click;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(70, 445);
+            label5.Name = "label5";
+            label5.Size = new Size(214, 24);
+            label5.TabIndex = 26;
+            label5.Text = "Fecha de Estreno:";
+            // 
+            // dtpFechaEstreno
+            // 
+            dtpFechaEstreno.Location = new Point(290, 439);
+            dtpFechaEstreno.Name = "dtpFechaEstreno";
+            dtpFechaEstreno.Size = new Size(222, 31);
+            dtpFechaEstreno.TabIndex = 25;
+            // 
             // FormActualizar
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 537);
+            Controls.Add(label5);
+            Controls.Add(dtpFechaEstreno);
             Controls.Add(btnActualizar);
             Controls.Add(txtRecaudacion);
             Controls.Add(txtDuracion);
@@ -192,5 +213,7 @@
         private Label label1;
         private Label txtIdBuscar;
         private Button btnActualizar;
+        private Label label5;
+        private DateTimePicker dtpFechaEstreno;
     }
 }

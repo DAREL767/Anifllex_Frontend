@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
 namespace Aniflex.Client
@@ -24,6 +25,9 @@ namespace Aniflex.Client
         [JsonProperty("esSaga")]
         [JsonPropertyName("esSaga")]
         public bool EsSaga { get; set; }
+
+        [JsonProperty("fechaEstreno")]
+        [JsonPropertyName("fechaEstreno")]
+        public string FechaEstreno { get; set; } // Formato ISO ej: "2026-10-01"
     }
 }
-

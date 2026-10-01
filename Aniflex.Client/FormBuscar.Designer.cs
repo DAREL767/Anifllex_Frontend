@@ -2,15 +2,8 @@
 {
     partial class FormBuscar
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +15,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             txtIdBuscar = new Label();
@@ -39,12 +28,14 @@
             txtTitulo = new TextBox();
             txtDuracion = new TextBox();
             txtRecaudacion = new TextBox();
+            label6 = new Label();
+            dtpFechaEstreno = new DateTimePicker();
             SuspendLayout();
             // 
             // txtIdBuscar
             // 
             txtIdBuscar.AutoSize = true;
-            txtIdBuscar.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtIdBuscar.Font = new Font("Unispace", 10F, FontStyle.Bold);
             txtIdBuscar.Location = new Point(35, 101);
             txtIdBuscar.Name = "txtIdBuscar";
             txtIdBuscar.Size = new Size(154, 24);
@@ -54,7 +45,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Showcard Gothic", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Showcard Gothic", 11F);
             label1.Location = new Point(295, 21);
             label1.Name = "label1";
             label1.Size = new Size(126, 28);
@@ -64,26 +55,24 @@
             // txtId
             // 
             txtId.Location = new Point(195, 91);
-            txtId.Multiline = true;
             txtId.Name = "txtId";
-            txtId.Size = new Size(276, 34);
+            txtId.Size = new Size(276, 31);
             txtId.TabIndex = 2;
             // 
             // btnBuscar
             // 
-            btnBuscar.Font = new Font("Sitka Banner", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnBuscar.Font = new Font("Sitka Banner", 10F);
             btnBuscar.Location = new Point(539, 89);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(156, 44);
             btnBuscar.TabIndex = 3;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
-            btnBuscar.Click += btnBuscar_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Unispace", 10F, FontStyle.Bold);
             label2.Location = new Point(35, 164);
             label2.Name = "label2";
             label2.Size = new Size(94, 24);
@@ -93,7 +82,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Unispace", 10F, FontStyle.Bold);
             label3.Location = new Point(35, 228);
             label3.Name = "label3";
             label3.Size = new Size(190, 24);
@@ -103,7 +92,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Unispace", 10F, FontStyle.Bold);
             label4.Location = new Point(35, 300);
             label4.Name = "label4";
             label4.Size = new Size(202, 24);
@@ -114,7 +103,7 @@
             // 
             chkEsSaga.AutoSize = true;
             chkEsSaga.Enabled = false;
-            chkEsSaga.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkEsSaga.Font = new Font("Unispace", 10F, FontStyle.Bold);
             chkEsSaga.Location = new Point(35, 361);
             chkEsSaga.Name = "chkEsSaga";
             chkEsSaga.Size = new Size(144, 28);
@@ -146,11 +135,32 @@
             txtRecaudacion.Size = new Size(228, 31);
             txtRecaudacion.TabIndex = 10;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Unispace", 10F, FontStyle.Bold);
+            label6.Location = new Point(35, 413);
+            label6.Name = "label6";
+            label6.Size = new Size(214, 24);
+            label6.TabIndex = 14;
+            label6.Text = "Fecha de Estreno:";
+            // 
+            // dtpFechaEstreno
+            // 
+            dtpFechaEstreno.Enabled = false;
+            dtpFechaEstreno.Format = DateTimePickerFormat.Short;
+            dtpFechaEstreno.Location = new Point(255, 413);
+            dtpFechaEstreno.Name = "dtpFechaEstreno";
+            dtpFechaEstreno.Size = new Size(244, 31);
+            dtpFechaEstreno.TabIndex = 15;
+            // 
             // FormBuscar
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 500);
+            Controls.Add(dtpFechaEstreno);
+            Controls.Add(label6);
             Controls.Add(txtRecaudacion);
             Controls.Add(txtDuracion);
             Controls.Add(txtTitulo);
@@ -182,5 +192,7 @@
         private TextBox txtTitulo;
         private TextBox txtDuracion;
         private TextBox txtRecaudacion;
+        private Label label6;
+        private DateTimePicker dtpFechaEstreno;
     }
 }

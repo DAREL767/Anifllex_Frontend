@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Aniflex.Client
@@ -11,10 +6,14 @@ namespace Aniflex.Client
     public partial class FormEliminar : Form
     {
         private readonly GraphQLService _service;
+
         public FormEliminar()
         {
             InitializeComponent();
             _service = new GraphQLService();
+
+            btnBuscar.Click += btnBuscar_Click;
+            btnEliminar.Click += btnEliminar_Click;
         }
 
         private async void btnBuscar_Click(object sender, EventArgs e)
@@ -25,7 +24,7 @@ namespace Aniflex.Client
 
                 if (string.IsNullOrEmpty(id))
                 {
-                    MessageBox.Show("Por favor ingresa un ID.");
+                    MessageBox.Show("Ingresa un ID para buscar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -37,15 +36,21 @@ namespace Aniflex.Client
                     txtDuracion.Text = p.Duracion.ToString();
                     txtRecaudacion.Text = p.Recaudacion.ToString();
                     chkEsSaga.Checked = p.EsSaga;
+
+                    if (DateTime.TryParse(p.FechaEstreno, out DateTime fecha))
+                    {
+                        dtpFechaEstreno.Value = fecha;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("No se encontró ninguna película con ese ID.");
+                    MessageBox.Show("No se encontró ninguna película con ese ID.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LimpiarCampos();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error en la búsqueda: {ex.Message}");
+                MessageBox.Show($"Error al buscar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -57,11 +62,11 @@ namespace Aniflex.Client
 
                 if (string.IsNullOrEmpty(id))
                 {
-                    MessageBox.Show("Ingresa el ID de la película a eliminar.");
+                    MessageBox.Show("Busca o ingresa un ID válido para eliminar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                var confirmacion = MessageBox.Show("¿Estás seguro de que deseas eliminar esta película?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var confirmacion = MessageBox.Show($"¿Estás seguro de eliminar la película con ID '{id}'?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (confirmacion == DialogResult.Yes)
                 {
@@ -69,20 +74,33 @@ namespace Aniflex.Client
 
                     if (eliminado)
                     {
-                        MessageBox.Show("Película eliminada correctamente.");
+                        MessageBox.Show("¡Película eliminada correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Notificamos al Observer para refrescar la lista
                         PeliculaObserver.NotificarCambio();
+
+                        LimpiarCampos();
                         txtId.Clear();
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo eliminar o el ID no existe.");
+                        MessageBox.Show("No se pudo eliminar la película.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar: {ex.Message}");
+                MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void LimpiarCampos()
+        {
+            txtTitulo.Clear();
+            txtDuracion.Clear();
+            txtRecaudacion.Clear();
+            chkEsSaga.Checked = false;
+            dtpFechaEstreno.Value = DateTime.Now;
         }
     }
 }

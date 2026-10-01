@@ -1,10 +1,10 @@
-﻿using GraphQL;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using GraphQL;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Aniflex.Client
 {
@@ -17,21 +17,23 @@ namespace Aniflex.Client
             _client = new GraphQLHttpClient("http://localhost:8080/graphql", new NewtonsoftJsonSerializer());
         }
 
-        // 1. LISTAR PELÍCULAS
-        public async Task<List<Pelicula>> ObtenerPeliculasAsync()
+        // 1. LISTAR PELÍCULAS (Con filtros opcionales de Título y EsSaga)
+        public async Task<List<Pelicula>> ObtenerPeliculasAsync(bool? esSaga = null, string titulo = null)
         {
             var request = new GraphQLRequest
             {
                 Query = @"
-                query {
-                    listarPeliculas {
+                query($esSaga: Boolean, $titulo: String) {
+                    listarPeliculas(esSaga: $esSaga, titulo: $titulo) {
                         id
                         titulo
                         duracionMinutos
                         recaudacionTaquilla
                         esSaga
+                        fechaEstreno
                     }
-                }"
+                }",
+                Variables = new { esSaga, titulo }
             };
 
             var response = await _client.SendQueryAsync<ListarPeliculasResponse>(request);
@@ -52,6 +54,7 @@ namespace Aniflex.Client
                         duracionMinutos
                         recaudacionTaquilla
                         esSaga
+                        fechaEstreno
                     }
                 }",
                 Variables = new { id }
@@ -75,6 +78,7 @@ namespace Aniflex.Client
                         duracionMinutos
                         recaudacionTaquilla
                         esSaga
+                        fechaEstreno
                     }
                 }",
                 Variables = new
@@ -85,7 +89,8 @@ namespace Aniflex.Client
                         titulo = pelicula.Titulo,
                         duracionMinutos = pelicula.Duracion,
                         recaudacionTaquilla = pelicula.Recaudacion,
-                        esSaga = pelicula.EsSaga
+                        esSaga = pelicula.EsSaga,
+                        fechaEstreno = pelicula.FechaEstreno // <-- Enviado al backend
                     }
                 }
             };
@@ -108,6 +113,7 @@ namespace Aniflex.Client
                         duracionMinutos
                         recaudacionTaquilla
                         esSaga
+                        fechaEstreno
                     }
                 }",
                 Variables = new
@@ -119,7 +125,8 @@ namespace Aniflex.Client
                         titulo = pelicula.Titulo,
                         duracionMinutos = pelicula.Duracion,
                         recaudacionTaquilla = pelicula.Recaudacion,
-                        esSaga = pelicula.EsSaga
+                        esSaga = pelicula.EsSaga,
+                        fechaEstreno = pelicula.FechaEstreno
                     }
                 }
             };
@@ -146,7 +153,6 @@ namespace Aniflex.Client
             return response.Data?.EliminarPelicula ?? false;
         }
 
-        // --- VALIDACIÓN DE ERRORES ---
         private void VerificarErrores<T>(GraphQLResponse<T> response)
         {
             if (response.Errors != null && response.Errors.Length > 0)
@@ -155,7 +161,6 @@ namespace Aniflex.Client
             }
         }
 
-        // --- CLASES AUXILIARES ---
         private class ListarPeliculasResponse
         {
             [JsonProperty("listarPeliculas")]

@@ -31,6 +31,8 @@
             dgvPeliculas = new DataGridView();
             btnCargar = new Button();
             label1 = new Label();
+            btnFiltrarSaga = new Button();
+            btnFiltrarTitulo = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvPeliculas).BeginInit();
             SuspendLayout();
             // 
@@ -46,7 +48,7 @@
             // btnCargar
             // 
             btnCargar.Font = new Font("Sitka Banner", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCargar.Location = new Point(299, 393);
+            btnCargar.Location = new Point(317, 392);
             btnCargar.Name = "btnCargar";
             btnCargar.Size = new Size(193, 45);
             btnCargar.TabIndex = 1;
@@ -64,11 +66,31 @@
             label1.TabIndex = 2;
             label1.Text = "PELICULAS DISPONIBLES";
             // 
+            // btnFiltrarSaga
+            // 
+            btnFiltrarSaga.Location = new Point(47, 393);
+            btnFiltrarSaga.Name = "btnFiltrarSaga";
+            btnFiltrarSaga.Size = new Size(208, 45);
+            btnFiltrarSaga.TabIndex = 3;
+            btnFiltrarSaga.Text = "Filtrar por Saga";
+            btnFiltrarSaga.UseVisualStyleBackColor = true;
+            // 
+            // btnFiltrarTitulo
+            // 
+            btnFiltrarTitulo.Location = new Point(548, 393);
+            btnFiltrarTitulo.Name = "btnFiltrarTitulo";
+            btnFiltrarTitulo.Size = new Size(192, 45);
+            btnFiltrarTitulo.TabIndex = 4;
+            btnFiltrarTitulo.Text = "Filtrar por Título";
+            btnFiltrarTitulo.UseVisualStyleBackColor = true;
+            // 
             // FormListar
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnFiltrarTitulo);
+            Controls.Add(btnFiltrarSaga);
             Controls.Add(label1);
             Controls.Add(btnCargar);
             Controls.Add(dgvPeliculas);
@@ -85,5 +107,7 @@
         private DataGridView dgvPeliculas;
         private Button btnCargar;
         private Label label1;
+        private Button btnFiltrarSaga;
+        private Button btnFiltrarTitulo;
     }
 }

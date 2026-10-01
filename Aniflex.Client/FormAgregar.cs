@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Aniflex.Client
@@ -15,75 +10,57 @@ namespace Aniflex.Client
         public FormAgregar()
         {
             InitializeComponent();
-            _service = new GraphQLService(); // <-- Inicializar el servicio
-        }
+            _service = new GraphQLService();
 
-        private void LimpiarCampos()
-        {
-            txtTitulo.Clear();
-            txtDuracion.Clear();
-            txtRecaudacion.Clear();
-            chkEsSaga.Checked = false;
+            btnGuardar.Click += btnGuardar_Click;
         }
 
         private async void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
-                string id = txtId.Text.Trim();
-                if (string.IsNullOrEmpty(id))
+                if (string.IsNullOrWhiteSpace(txtId.Text) || string.IsNullOrWhiteSpace(txtTitulo.Text))
                 {
-                    MessageBox.Show("Debes ingresar un ID.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                // 1. Lectura y casteo de datos desde los controles de la UI
-                string titulo = txtTitulo.Text.Trim();
-
-                if (string.IsNullOrEmpty(titulo))
-                {
-                    MessageBox.Show("El título es obligatorio.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El ID y el Título son obligatorios.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Casteo/Parseo de cadenas a tipos numéricos
-                if (!int.TryParse(txtDuracion.Text, out int duracion))
+                Pelicula nueva = new Pelicula
                 {
-                    MessageBox.Show("La duración debe ser un número entero válido (minutos).", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (!double.TryParse(txtRecaudacion.Text, out double recaudacion))
-                {
-                    MessageBox.Show("La recaudación debe ser un valor numérico válido.", "Error de entrada", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                bool esSaga = chkEsSaga.Checked;
-
-                // 2. Creación del objeto Pelicula
-                Pelicula nuevaPelicula = new Pelicula
-                {
-                    Id = id,
-                    Titulo = titulo,
-                    Duracion = duracion,
-                    Recaudacion = recaudacion,
-                    EsSaga = esSaga
+                    Id = txtId.Text.Trim(),
+                    Titulo = txtTitulo.Text.Trim(),
+                    Duracion = int.TryParse(txtDuracion.Text, out int dur) ? dur : 0,
+                    Recaudacion = double.TryParse(txtRecaudacion.Text, out double rec) ? rec : 0,
+                    EsSaga = chkEsSaga.Checked,
+                    FechaEstreno = dtpFechaEstreno.Value.ToString("yyyy-MM-dd") // Lee la fecha del calendario
                 };
 
-                // 3. Envío al backend
-                Pelicula resultado = await _service.CrearPeliculaAsync(nuevaPelicula);
+                Pelicula creada = await _service.CrearPeliculaAsync(nueva);
 
-                if (resultado != null)
+                if (creada != null)
                 {
-                    MessageBox.Show($"Película '{resultado.Titulo}' creada con éxito (ID: {resultado.Id}).", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("¡Película agregada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Notificamos al Observer para refrescar la lista en vivo
                     PeliculaObserver.NotificarCambio();
+
                     LimpiarCampos();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar: {ex.Message}", "Error de Servidor", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al guardar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void LimpiarCampos()
+        {
+            txtId.Clear();
+            txtTitulo.Clear();
+            txtDuracion.Clear();
+            txtRecaudacion.Clear();
+            chkEsSaga.Checked = false;
+            dtpFechaEstreno.Value = DateTime.Now;
         }
     }
 }

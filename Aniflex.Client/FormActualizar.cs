@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Aniflex.Client
@@ -11,10 +6,14 @@ namespace Aniflex.Client
     public partial class FormActualizar : Form
     {
         private readonly GraphQLService _service;
+
         public FormActualizar()
         {
             InitializeComponent();
             _service = new GraphQLService();
+
+            btnBuscar.Click += btnBuscar_Click;
+            btnActualizar.Click += btnActualizar_Click;
         }
 
         private async void btnBuscar_Click(object sender, EventArgs e)
@@ -25,7 +24,7 @@ namespace Aniflex.Client
 
                 if (string.IsNullOrEmpty(id))
                 {
-                    MessageBox.Show("Por favor ingresa un ID.");
+                    MessageBox.Show("Ingresa un ID para buscar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -37,15 +36,20 @@ namespace Aniflex.Client
                     txtDuracion.Text = p.Duracion.ToString();
                     txtRecaudacion.Text = p.Recaudacion.ToString();
                     chkEsSaga.Checked = p.EsSaga;
+
+                    if (DateTime.TryParse(p.FechaEstreno, out DateTime fecha))
+                    {
+                        dtpFechaEstreno.Value = fecha;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("No se encontró ninguna película con ese ID.");
+                    MessageBox.Show("No se encontró ninguna película con ese ID.", "Sin resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error en la búsqueda: {ex.Message}");
+                MessageBox.Show($"Error al buscar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -53,34 +57,35 @@ namespace Aniflex.Client
         {
             try
             {
-                string id = txtId.Text.Trim();
-
-                if (string.IsNullOrEmpty(id) || !int.TryParse(txtDuracion.Text, out int duracion) || !double.TryParse(txtRecaudacion.Text, out double recaudacion))
+                if (string.IsNullOrWhiteSpace(txtId.Text) || string.IsNullOrWhiteSpace(txtTitulo.Text))
                 {
-                    MessageBox.Show("Verifica que los campos contengan valores numéricos válidos.");
+                    MessageBox.Show("Busca o ingresa un ID y Título válidos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                Pelicula pEditada = new Pelicula
+                Pelicula editada = new Pelicula
                 {
-                    Id = id,
+                    Id = txtId.Text.Trim(),
                     Titulo = txtTitulo.Text.Trim(),
-                    Duracion = duracion,
-                    Recaudacion = recaudacion,
-                    EsSaga = chkEsSaga.Checked
+                    Duracion = int.TryParse(txtDuracion.Text, out int dur) ? dur : 0,
+                    Recaudacion = double.TryParse(txtRecaudacion.Text, out double rec) ? rec : 0,
+                    EsSaga = chkEsSaga.Checked,
+                    FechaEstreno = dtpFechaEstreno.Value.ToString("yyyy-MM-dd")
                 };
 
-                Pelicula resultado = await _service.ActualizarPeliculaAsync(pEditada);
+                Pelicula resultado = await _service.ActualizarPeliculaAsync(editada);
 
                 if (resultado != null)
                 {
-                    MessageBox.Show("Película actualizada exitosamente.");
+                    MessageBox.Show("¡Película actualizada con éxito!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Notificamos al Observer para refrescar la lista automáticamente
                     PeliculaObserver.NotificarCambio();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar: {ex.Message}");
+                MessageBox.Show($"Error al actualizar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

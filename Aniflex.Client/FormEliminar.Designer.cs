@@ -40,6 +40,8 @@
             txtId = new TextBox();
             label1 = new Label();
             txtIdBuscar = new Label();
+            label6 = new Label();
+            dtpFechaEstreno = new DateTimePicker();
             SuspendLayout();
             // 
             // btnEliminar
@@ -154,11 +156,30 @@
             txtIdBuscar.TabIndex = 23;
             txtIdBuscar.Text = "Id a Cargar:";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Unispace", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(70, 449);
+            label6.Name = "label6";
+            label6.Size = new Size(214, 24);
+            label6.TabIndex = 36;
+            label6.Text = "Fecha de Estreno:";
+            // 
+            // dtpFechaEstreno
+            // 
+            dtpFechaEstreno.Location = new Point(290, 442);
+            dtpFechaEstreno.Name = "dtpFechaEstreno";
+            dtpFechaEstreno.Size = new Size(244, 31);
+            dtpFechaEstreno.TabIndex = 35;
+            // 
             // FormEliminar
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 561);
+            Controls.Add(label6);
+            Controls.Add(dtpFechaEstreno);
             Controls.Add(btnEliminar);
             Controls.Add(txtRecaudacion);
             Controls.Add(txtDuracion);
@@ -192,5 +213,7 @@
         private TextBox txtId;
         private Label label1;
         private Label txtIdBuscar;
+        private Label label6;
+        private DateTimePicker dtpFechaEstreno;
     }
 }

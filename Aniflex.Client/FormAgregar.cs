@@ -12,7 +12,6 @@ namespace Aniflex.Client
             InitializeComponent();
             _service = new GraphQLService();
 
-            btnGuardar.Click += btnGuardar_Click;
         }
 
         private async void btnGuardar_Click(object sender, EventArgs e)

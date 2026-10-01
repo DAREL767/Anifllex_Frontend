@@ -12,8 +12,6 @@ namespace Aniflex.Client
             InitializeComponent();
             _service = new GraphQLService();
 
-            btnBuscar.Click += btnBuscar_Click;
-            btnActualizar.Click += btnActualizar_Click;
         }
 
         private async void btnBuscar_Click(object sender, EventArgs e)
